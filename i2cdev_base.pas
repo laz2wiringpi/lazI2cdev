@@ -48,6 +48,12 @@ function I2C_Read16(fh: Cint; reg: byte): word;
 function I2C_Write8(fh: Cint; reg: byte; Data: byte): boolean;
 function I2C_Write16(fh: Cint; reg: byte; Data: word): boolean;
 
+--- 8bit functions 
+function BitOn_8(const val: byte; const TheBit: Byte): byte;
+function BitOff_8(const val: byte; const TheBit: Byte): byte;
+function IsBitSet_8(const val: byte; const TheBit: Byte): Boolean;
+ 
+
 
 implementation
 
@@ -193,6 +199,19 @@ begin
   if Fhdev <> 0 then
     I2C_Close(Fhdev);
   Fhdev := 0;
+end;
+// ------------------------------BIT FUNCTIONS 8 BIT 
+function BitOn_8(const val: byte; const TheBit: Byte): byte;
+begin
+  Result := val or (1 shl TheBit);
+end;
+function BitOff_8(const val: byte; const TheBit: Byte): byte;
+begin
+  Result := val and ((1 shl TheBit) xor $FFFF);
+end;
+function IsBitSet_8(const val: byte; const TheBit: Byte): Boolean;
+begin
+  Result := (val and (1 shl TheBit)) <> 0;
 end;
 
 
