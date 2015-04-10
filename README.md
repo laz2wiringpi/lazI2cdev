@@ -17,24 +17,26 @@ function    connect : boolean ;<BR>
 procedure   disconect ;<BR>
 
 unit - class for IC's
+<BR>
+mpc4725 - DAC 12 bit<BR>
+----
+procedure MCP4725_Write12bit(value : longint  ; eprom : boolean = false );<BR>
+<BR>
+ADS1015 - ADC PGA  12 bit <BR>
+----- 
+property conversionDelay: integer  <BR>
+property bitShift: smallint <BR> 
+property samplepersecond: TADSsamplepersecond<BR>
+property gain: tADSgain<BR>     
 
-mpc4725 - DAC 12 bit
-  procedure MCP4725_Write12bit(value : longint  ; eprom : boolean = false );<BR>
-ADS1015 - ADC PGA  12 bit 
- 
-  property conversionDelay: integer  <BR>
-  property bitShift: smallint  
-  property samplepersecond: TADSsamplepersecond
-  property gain: tADSgain     
-
-  function ADSread_SingleEnded(channel: Cint): word;
-  function Getconfig(): word;
-  function configToStr(): string;
-  function getLastConversionResults(): word;
-  function  ADSreadDifferential(muxmode: TADSmuxmode): integer;
-
+function ADSread_SingleEnded(channel: Cint): word;<BR>
+function Getconfig(): word;<BR>
+function configToStr(): string;<BR>
+function getLastConversionResults(): word;<BR>
+function  ADSreadDifferential(muxmode: TADSmuxmode): integer;<BR>
+<BR>
 PGA9685 
-
+----
  
  
 
