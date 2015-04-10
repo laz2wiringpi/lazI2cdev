@@ -48,6 +48,8 @@ function I2C_Read16(fh: Cint; reg: byte): word;
 function I2C_Write8(fh: Cint; reg: byte; Data: byte): boolean;
 function I2C_Write16(fh: Cint; reg: byte; Data: word): boolean;
 
+---
+function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
 --- 8bit functions 
 function BitOn_8(const val: byte; const TheBit: Byte): byte;
 function BitOff_8(const val: byte; const TheBit: Byte): byte;
@@ -111,6 +113,27 @@ begin
   buf[2] := lo(Data);
 
   if fpwrite(fh, buf, 3) <> 3 then
+  begin
+    raise Exception.Create('I2C_Write16 ERROR');
+
+  end;
+
+  Result := True;
+
+end;
+function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
+
+var
+  buf: packed array [0..4] of byte;
+
+begin
+
+  buf[0] := reg;
+  buf[1] := hi(Data1);
+  buf[2] := lo(Data1);
+  buf[3] := hi(Data2);
+  buf[4] := lo(Data1);
+  if fpwrite(fh, buf, 5) <> 5 then
   begin
     raise Exception.Create('I2C_Write16 ERROR');
 
