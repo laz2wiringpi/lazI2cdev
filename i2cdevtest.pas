@@ -10,7 +10,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   baseUnix,
   i2cdev_base,
   i2cdev_ADS1015,
-  i2cdev_MCP4725;
+  i2cdev_MCP4725, i2cdev_PCA9685;
 
 type
 
