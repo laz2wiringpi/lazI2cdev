@@ -91,7 +91,14 @@ begin
 end;
 
 procedure TPCA9685.setPWMFreq(freq: Extended);
+var
+  oldmode,newnode byte;
+
 begin
+  connect ;
+
+ // uint8_t prescale = round(((float)25000000 / (float)(freq * (long)4096))) - 1;
+   prescale   round( ( 25000000 /  ( freq  *  4096)) ) - 1;
    {
   //Serial.print("Attempting to set freq ");
   //Serial.println(freq);
@@ -102,25 +109,37 @@ begin
   prescaleval -= 1;
 
   uint8_t prescale = floor(prescaleval + 0.5);
+    }
+  // set the bit to on fpr sleep
+  oldmode = I2C_Read8(hdev ,PCA9685_MODE1);
 
+  newmode = BitOn_8(oldmode  5);  // sleep  bit 5 - 1 base
 
-  uint8_t oldmode = read8(PCA9685_MODE1);
-  uint8_t newmode = (oldmode&0x7F) | 0x10; // sleep
-  write8(PCA9685_MODE1, newmode); // go to sleep
-  write8(PCA9685_PRESCALE, prescale); // set the prescaler
-  write8(PCA9685_MODE1, oldmode);
-  delay(5);
-  write8(PCA9685_MODE1, oldmode | 0xa1);  //  This sets the MODE1 register to turn on auto increment.
+  I2C_Write8(hdev,PCA9685_MODE1, newmode); // go to sleep
+  sleep(5);
+  I2C_Write8(hdev,PCA9685_PRESCALE, prescale); // set the prescaler
+  I2C_Write8(hdev,PCA9685_MODE1, oldmode);
+   sleep(5);
+
+ // I2C_Write8(hdev,PCA9685_MODE1, oldmode | 0xa1);  //  This sets the MODE1 register to turn on auto increment.
                                           // This is why the beginTransmission below was not working.
   //  Serial.print("Mode now 0x"); Serial.println(read8(PCA9685_MODE1), HEX);
     }
 end;
 
-procedure TPCA9685.setPWM(num: Cint; on, off: Word);
+procedure TPCA9685.setPWM(num: Cint; ton, toff: Word);
+var
+  reg := byte;
 begin
 connect ;
+    // need a new one reg word word ;
 
- // WIRE.write(LED0_ON_L+4*num);
+
+     reg = LED0_ON_L + (4*num);
+   // 8 8,8 8,8  - I2C_Write16_2(fh,reg,word ,word) ; //  - 5 bytes
+     I2C_Write16_2(hdev,reg,ton,toff);
+
+ // WIRE.write(LED0_ON_L+ (4*num));
  // WIRE.write(on);
  // WIRE.write(on>>8);
  // WIRE.write(off);
@@ -128,7 +147,6 @@ connect ;
  // WIRE.endTransmission();
 
 end;
-
 procedure TPCA9685.setPin(num: Cint; val: Word; invert: Boolean);
 begin
   // Clamp value between 0 and 4095 inclusive.
