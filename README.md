@@ -1,14 +1,13 @@
 # lazI2cdev
 lazarus I2c lib   fpopen  /dev/i2c-1 
 
- 
-
- 
-function I2C_Read16(fh: Cint; reg: byte): word;
-function I2C_Write16(fh: Cint; reg: byte; Data: word): boolean; 
+ I2C_Read16 
+ I2C_Read8
+ I2C_Write16 
+ I2C_Write8
 
 overview 
-
+------------------------------------
 TIc2Base 
 
 constructor Create(ai2cadd: Cint) 
@@ -33,6 +32,8 @@ ADS1015 - ADC PGA  12 bit
   function configToStr(): string;
   function getLastConversionResults(): word;
   function  ADSreadDifferential(muxmode: TADSmuxmode): integer;
+
+PGA9685 
 
  
  
