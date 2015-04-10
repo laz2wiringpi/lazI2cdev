@@ -13,7 +13,7 @@ property hdev: Cint read Fhdev write Fhdev;<BR>
 property i2cadd: Cint read Fi2cadd;<BR>
 function    connect : boolean ;<BR>
 procedure   disconect ;<BR>
--------
+ 
 units - class for IC's<BR>
 --
 <BR>
