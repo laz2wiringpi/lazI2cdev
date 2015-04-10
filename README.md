@@ -34,7 +34,7 @@ function configToStr(): string;<BR>
 function getLastConversionResults(): word;<BR>
 function  ADSreadDifferential(muxmode: TADSmuxmode): integer;<BR>
 <BR>
-PGA9685 
+PCA9685
 ----
  
  
