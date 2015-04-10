@@ -10,19 +10,19 @@ overview
 ------------------------------------
 TIc2Base 
 
-constructor Create(ai2cadd: Cint) 
-property hdev: Cint read Fhdev write Fhdev;
-property i2cadd: Cint read Fi2cadd;
-function    connect : boolean ;
-procedure   disconect ;
+constructor Create(ai2cadd: Cint) <BR>
+property hdev: Cint read Fhdev write Fhdev;<BR>
+property i2cadd: Cint read Fi2cadd;<BR>
+function    connect : boolean ;<BR>
+procedure   disconect ;<BR>
 
 unit - class for IC's
 
 mpc4725 - DAC 12 bit
-  procedure MCP4725_Write12bit(value : longint  ; eprom : boolean = false );
+  procedure MCP4725_Write12bit(value : longint  ; eprom : boolean = false );<BR>
 ADS1015 - ADC PGA  12 bit 
  
-  property conversionDelay: integer  
+  property conversionDelay: integer  <BR>
   property bitShift: smallint  
   property samplepersecond: TADSsamplepersecond
   property gain: tADSgain     
