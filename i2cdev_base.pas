@@ -48,8 +48,8 @@ function I2C_Read16(fh: Cint; reg: byte): word;
 function I2C_Write8(fh: Cint; reg: byte; Data: byte): boolean;
 function I2C_Write16(fh: Cint; reg: byte; Data: word): boolean;
 
-// ----
-function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
+// ----  test function
+//function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
 // --- 8bit functions
 function BitOn_8(const val: byte; const TheBit: Byte): byte;
 function BitOff_8(const val: byte; const TheBit: Byte): byte;
@@ -121,6 +121,7 @@ begin
   Result := True;
 
 end;
+{
 function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
 
 var
@@ -188,7 +189,7 @@ begin
   Result := True;
 
 end;
-
+  }
 function I2C_Read8(fh: Cint; reg: byte): byte;
 var
   buf: byte;

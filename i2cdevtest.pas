@@ -79,8 +79,27 @@ type
   end;
 
   procedure ic2dev.servotest;
-    var
+
+      const
+
+    MINSERVO = 150;
+    MAXSERVO =500;
+    PWMFREQ = 60;
+       var
       cnt : integer ;
+  procedure submove( subPIN :  byte );
+  begin
+
+      pca.pins[subPIN].led_off :=MINSERVO;
+        pca.pins[subPIN].led_on :=0;
+        pca.pins[subPIN].updatepin;
+             sleep(250);
+              pca.pins[subPIN].led_on :=0;
+                  pca.pins[subPIN].led_off :=MAXSERVO ;
+                  pca.pins[subPIN].updatepin;
+        sleep(250);
+
+  end;
 
   begin
 
@@ -103,7 +122,7 @@ type
     //pca.setPin(0, 500, False);
 
     pca.reset();
-    PCA.setPWMFreq(60);
+    PCA.setPWMFreq(PWMFREQ);
 
 
 
@@ -116,38 +135,43 @@ type
     writeln('FREQ=', PCA.getPWMFreqbit);
 
 
-    while True do
+   // while True do
     begin
-      pca.pins[1].led_off :=0;
-        pca.pins[1].led_on :=200;
+      //move one then the the other
+      submove(0);
+      submove(1);
+      sleep (500);
+       pca.pins[0].led_off :=MINSERVO;
+         pca.pins[1].led_off :=MINSERVO;
+         // move at same time
+        pca.pins[0].updatepin;
         pca.pins[1].updatepin;
-             sleep(250);
-              pca.pins[1].led_on :=2000;
-                  pca.pins[1].updatepin;
-        sleep(250);
 
+           sleep(1000);
 
+     {
       for cnt := 0 to 10 do
        begin
 
-        pca.setPin(0, 125 + (cnt * 40) , False);
+        pca.setPin(0, MINSERVO + (cnt * 40) , False);
              sleep(250);
        end;
          for cnt := 0 to 10 do
        begin
 
-        pca.setPin(0, 525 - (cnt * 40) , False);
+        pca.setPin(0, MAXSERVO - (cnt * 40) , False);
              sleep(100);
        end;
 
    //   I2C_Write8 (pca.hdev , 9,1);
       sleep(1000);
-             pca.setPin(0, 325, False);
+             pca.setPin(0, round((MAXSERVO - MINSERVO ) /2) + MINSERVO , False);
               sleep(1000);
-       pca.setPin(0, 525, False);
+       pca.setPin(0, MAXSERVO, False);
      //  I2C_Write8 (pca.hdev , 9,0);
 
           sleep(1000);
+         }
     end;
 
 
@@ -174,7 +198,7 @@ type
 
 
     //   volt;
-      servotest;
+     // servotest;
 
       Terminate;
 
@@ -182,6 +206,8 @@ type
       while True do
       begin
         ReadLn(ainput);
+
+
         if (ainput) = 'd' then
         begin
           for cntt := 0 to 2000 do
@@ -226,8 +252,11 @@ type
           writeln(MCP.Getconfig);
         end;
 
-        if (ainput) = 'v' then
+        if (ainput) = 'volt' then
           volt;
+
+          if (ainput) = 'servotest' then
+          servotest;
 
       end;
 
