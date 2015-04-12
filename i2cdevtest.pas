@@ -10,7 +10,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   baseUnix,
   i2cdev_base,
   i2cdev_ADS1015,
-  i2cdev_MCP4725, i2cdev_PCA9685;
+  i2cdev_MCP4725,
+  i2cdev_PCA9685;
 
 type
 
@@ -21,6 +22,9 @@ type
 
     ADS: TADS1015;
     MCP: TMCP4725;
+    PCA: TPCA9685;
+    procedure servotest;
+
   protected
     procedure DoRun; override;
     procedure volt;
@@ -74,6 +78,82 @@ type
 
   end;
 
+  procedure ic2dev.servotest;
+    var
+      cnt : integer ;
+
+  begin
+
+    pca.connect;
+
+
+
+
+    writeln('MODE1=', PCA.getMODE1);
+    writeln('MODE2=', PCA.getMODE2);
+    writeln('ADD1=', PCA.getSUBADD1);
+    writeln('ADD2=', PCA.getSUBADD2);
+    writeln('DADD3=', PCA.getSUBADD3);
+    writeln('LEADALLCALL=', PCA.getLEDALLCALLADD);
+    writeln('FREQ=', PCA.getPWMFreqbit);
+
+
+
+
+    //pca.setPin(0, 500, False);
+
+    pca.reset();
+    PCA.setPWMFreq(60);
+
+
+
+    writeln('MODE1=', PCA.getMODE1);
+    writeln('MODE2=', PCA.getMODE2);
+    writeln('ADD1=', PCA.getSUBADD1);
+    writeln('ADD2=', PCA.getSUBADD2);
+    writeln('DADD3=', PCA.getSUBADD3);
+    writeln('LEADALLCALL=', PCA.getLEDALLCALLADD);
+    writeln('FREQ=', PCA.getPWMFreqbit);
+
+
+    while True do
+    begin
+      pca.pins[1].led_off :=0;
+        pca.pins[1].led_on :=200;
+        pca.pins[1].updatepin;
+             sleep(250);
+              pca.pins[1].led_on :=2000;
+                  pca.pins[1].updatepin;
+        sleep(250);
+
+
+      for cnt := 0 to 10 do
+       begin
+
+        pca.setPin(0, 125 + (cnt * 40) , False);
+             sleep(250);
+       end;
+         for cnt := 0 to 10 do
+       begin
+
+        pca.setPin(0, 525 - (cnt * 40) , False);
+             sleep(100);
+       end;
+
+   //   I2C_Write8 (pca.hdev , 9,1);
+      sleep(1000);
+             pca.setPin(0, 325, False);
+              sleep(1000);
+       pca.setPin(0, 525, False);
+     //  I2C_Write8 (pca.hdev , 9,0);
+
+          sleep(1000);
+    end;
+
+
+
+  end;
+
   procedure ic2dev.DoRun;
   var
 
@@ -89,11 +169,14 @@ type
 
       ADS := TADS1015.Create();
       MCP := TMCP4725.Create();
+      PCA :=
+        TPCA9685.Create();
 
 
-      volt;
+    //   volt;
+      servotest;
 
-
+      Terminate;
 
 
       while True do

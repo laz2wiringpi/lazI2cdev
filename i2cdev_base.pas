@@ -124,21 +124,67 @@ end;
 function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
 
 var
-  buf: packed array [0..4] of byte;
+  buf1: packed array [0..1] of byte;
+
+  // buf : packed array [0..7] of byte ;
+
+
 
 begin
 
-  buf[0] := reg;
-  buf[1] := hi(Data1);
-  buf[2] := lo(Data1);
-  buf[3] := hi(Data2);
-  buf[4] := lo(Data1);
-  if fpwrite(fh, buf, 5) <> 5 then
+  buf1[0] := reg;
+  buf1[1] := lo(data1);
+  if fpwrite(fh, buf1, 2) <> 2 then
   begin
     raise Exception.Create('I2C_Write16 ERROR');
 
   end;
 
+   buf1[0] := reg + 1;
+  buf1[1] := hi(data1);
+  if fpwrite(fh, buf1, 2) <> 2 then
+  begin
+    raise Exception.Create('I2C_Write16 ERROR');
+
+  end;
+
+    buf1[0] := reg + 2;
+  buf1[1] := lo(data2);
+  if fpwrite(fh, buf1, 2) <> 2 then
+  begin
+    raise Exception.Create('I2C_Write16 ERROR');
+
+  end;
+
+    buf1[0] := reg + 3;
+  buf1[1] := hi(data2);
+  if fpwrite(fh, buf1, 2) <> 2 then
+  begin
+    raise Exception.Create('I2C_Write16 ERROR');
+
+  end;
+
+
+
+ {
+  buf[0] := reg;
+  buf[1] := lo(Data1);
+  buf[2] := reg + 1;
+  buf[3] := hi(Data1);
+  buf[4] := reg + 2;
+  buf[5] := lo(Data2);
+  buf[6] := reg + 3;
+  buf[7] := hi(Data2);
+
+
+
+  if fpwrite(fh, buf1, 8) <> 8 then
+  begin
+    raise Exception.Create('I2C_Write16 ERROR');
+
+  end;
+
+     }
   Result := True;
 
 end;
@@ -197,7 +243,7 @@ begin
 
   Fi2cadd := ai2cadd;
   fhdev := 0;
-
+  Inherited create;
 end;
 
 destructor TIc2Base.Destroy();
