@@ -11,7 +11,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   i2cdev_base,
   i2cdev_ADS1015,
   i2cdev_MCP4725,
-  i2cdev_PCA9685;
+  i2cdev_PCA9685, i2cdev_mcp23017, i2cdev_lcd;
 
 type
 
@@ -23,6 +23,9 @@ type
     ADS: TADS1015;
     MCP: TMCP4725;
     PCA: TPCA9685;
+    LCD : TLCD  ;
+
+    procedure doLCD();
     procedure servotest;
 
   protected
@@ -32,6 +35,40 @@ type
   end;
 
   { ic2dev }
+ procedure  ic2dev.doLCD ();
+ var
+ cnt : Integer ;
+ begin
+
+   LCD.initMCP() ;
+      LCD.SendString ('_234567890');
+
+      LCD.SendString ('1_34567890');
+
+
+         LCD.SendString ('12_4567890');
+
+            LCD.SendString ('123_567890');
+
+
+            LCD.SendString ('1234_67890');
+
+ sleep(500);
+ LCD.setCursor(0,0);
+  sleep(500);
+ LCD.setCursor(3,1);
+  sleep(500);
+ LCD.setCursor(2,1);
+   for cnt := 1 to 5 do
+   lcd.scrollDisplayLeft()  ;
+      for cnt := 1 to 5 do
+   lcd.scrollDisplayRight ()  ;
+
+ end;
+
+
+
+
   procedure ic2dev.volt;
   var
     volt0, volt1, volt2, volt3: integer;
@@ -196,6 +233,9 @@ type
       PCA :=
         TPCA9685.Create();
 
+      LCD := TLCD .Create($24);
+
+        dolcd();
 
     //   volt;
      // servotest;
@@ -267,6 +307,7 @@ type
 
     ADS.Free;
     MCP.Free;
+    LCD.Free;
 
 
 

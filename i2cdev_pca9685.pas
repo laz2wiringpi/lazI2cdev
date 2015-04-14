@@ -363,16 +363,17 @@ begin
     }
   // set the bit to on fpr sleep
   oldmode := I2C_Read8(hdev, PCA9685_MODE1);
+  newmode := oldmode;
 
-  newmode := BitOn_8(oldmode, 4);  // sleep  bit 5 - 1 base
+   BitOn_8(newmode, 4);  // sleep  bit 5 - 1 base
 
   I2C_Write8(hdev, PCA9685_MODE1, newmode); // go to sleep
   sleep(5);
   I2C_Write8(hdev, PCA9685_PRESCALE, prescale); // set the prescaler
   oldmode := 1;
-  oldmode := BitOFF_8(oldmode, 4);  // sleep
+   BitOFF_8(oldmode, 4);  // sleep
   //oldmode := BitON_8(oldmode , 5);  // autoinc
-  oldmode := BitON_8(oldmode, 7);  // reset  bit 7
+  BitON_8(oldmode, 7);  // reset  bit 7
 
   I2C_Write8(hdev, PCA9685_MODE1, oldmode);
   sleep(5);

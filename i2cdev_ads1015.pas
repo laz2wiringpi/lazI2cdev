@@ -117,7 +117,7 @@ type
     Fgain: tADSgain;
     Fsamplepersecond: TADSsamplepersecond;
 
-    function ADSstartComparator(channel: Cint; Highthreshold: Cint): integer;
+    function ADSstartComparator(channel: Byte; Highthreshold: Byte): integer;
     procedure SetbitShift(const AValue: smallint);
     procedure SetconversionDelay(const AValue: integer);
     procedure Setgain(const AValue: tADSgain);
@@ -126,13 +126,13 @@ type
   public
 
     constructor Create(); override;
-    constructor Create(aADS1015_ADDRESS: Cint); override;
+    constructor Create(aADS1015_ADDRESS: Byte); override;
     property conversionDelay: integer read FconversionDelay write SetconversionDelay;
     property bitShift: smallint read FbitShift write SetbitShift;
     property samplepersecond: TADSsamplepersecond
       read Fsamplepersecond write Setsamplepersecond;
     property gain: tADSgain read Fgain write Setgain;
-    function ADSread_SingleEnded(channel: Cint): word;
+    function ADSread_SingleEnded(channel: Byte): word;
     function Getconfig(): word;
     function configToStr(): string;
     function getLastConversionResults(): word;
@@ -164,7 +164,7 @@ begin
   Create(ADS1015_ADDRESS);
 end;
 
-constructor TADS1015.Create(aADS1015_ADDRESS: Cint);
+constructor TADS1015.Create(aADS1015_ADDRESS: Byte);
 begin
 
   inherited Create(aADS1015_ADDRESS);
@@ -177,7 +177,7 @@ end;
 
 
 
-function TADS1015.ADSread_SingleEnded(channel: Cint): word;
+function TADS1015.ADSread_SingleEnded(channel: Byte): word;
 var
   config, rawdata: word;
 begin
@@ -252,8 +252,8 @@ end;
 */
 /**************************************************************************/ }
 
-function TADS1015.ADSstartComparator(channel: Cint;
-  Highthreshold   : Cint  ) : Cint ;
+function TADS1015.ADSstartComparator(channel: Byte;
+  Highthreshold   : Byte  ) : integer ;
  var
   config, rawdata: word;
 

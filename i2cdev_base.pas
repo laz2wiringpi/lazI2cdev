@@ -19,17 +19,17 @@ type
   TIc2Base = class
 
   private
-    Fhdev: Cint;
-    Fi2cadd: Cint;
+    Fhdev: Byte;
+    Fi2cadd: Byte;
   public
 
 
 
     constructor Create(); virtual; abstract;
-    constructor Create(ai2cadd: Cint); virtual; overload;
+    constructor Create(ai2cadd: Byte); virtual; overload;
     destructor Destroy(); override;
-    property hdev: Cint read Fhdev write Fhdev;
-    property i2cadd: Cint read Fi2cadd;
+    property hdev: Byte read Fhdev write Fhdev;
+    property i2cadd: Byte read Fi2cadd;
 
     function connect: boolean;
 
@@ -39,32 +39,37 @@ type
 
   end;
 
-function I2C_Open(iDevAddr: Cint): Cint;
-procedure I2C_Close(fh: Cint);
+function I2C_Open(iDevAddr: Byte): Byte;
+procedure I2C_Close(fh: Byte);
 
-function I2C_Read8(fh: Cint; reg: byte): byte;
-function I2C_Read16(fh: Cint; reg: byte): word;
+function I2C_Read8(fh: Byte; reg: byte): byte;
+function I2C_Read16(fh: Byte; reg: byte): word;
 
-function I2C_Write8(fh: Cint; reg: byte; Data: byte): boolean;
-function I2C_Write16(fh: Cint; reg: byte; Data: word): boolean;
+function I2C_Write8(fh: Byte; reg: byte; Data: byte): boolean;
+function I2C_Write16(fh: Byte; reg: byte; Data: word): boolean;
 
 // ----  test function
-//function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
+//function I2C_Write16_2(fh: Byte; reg: byte; Data1,data2: word): boolean;
 // --- 8bit functions
-function BitOn_8(const val: byte; const TheBit: Byte): byte;
-function BitOff_8(const val: byte; const TheBit: Byte): byte;
-function IsBitSet_8(const val: byte; const TheBit: Byte): Boolean;
+//function BitOn_8(const val: byte; const TheBit: Byte): byte;
+//function BitOff_8(const val: byte; const TheBit: Byte): byte;
+procedure  BitOn_8(var Value: byte; const TheBit: Byte);
+procedure  BitOff_8(var Value: byte; const TheBit: Byte);
+
+function IsBitSet_8(const Value: byte; const TheBit: Byte): Boolean;
  
+// wrapper
+procedure  delayMicroseconds (micorseconds : Integer  );
 
 
 implementation
 
-procedure I2C_Close(fh: Cint);
+procedure I2C_Close(fh: Byte);
 begin
   fpclose(fh);
 end;
 
-function I2C_Open(iDevAddr: Cint): Cint;
+function I2C_Open(iDevAddr: Byte): Byte;
 const
   I2C_SLAVE = 1795;
 var
@@ -81,7 +86,7 @@ begin
 
 end;
 
-function I2C_Write8(fh: Cint; reg: byte; Data: byte): boolean;
+function I2C_Write8(fh: Byte; reg: byte; Data: byte): boolean;
 var
   buf: packed array [0..1] of byte;
 
@@ -100,8 +105,15 @@ begin
   Result := True;
 
 end;
+procedure  delayMicroseconds (micorseconds : Integer  );
+begin
+  // dummy waper
+   sleep( round( micorseconds / 1000) );
 
-function I2C_Write16(fh: Cint; reg: byte; Data: word): boolean;
+
+end;
+
+function I2C_Write16(fh: Byte; reg: byte; Data: word): boolean;
 
 var
   buf: packed array [0..2] of byte;
@@ -122,7 +134,7 @@ begin
 
 end;
 {
-function I2C_Write16_2(fh: Cint; reg: byte; Data1,data2: word): boolean;
+function I2C_Write16_2(fh: Byte; reg: byte; Data1,data2: word): boolean;
 
 var
   buf1: packed array [0..1] of byte;
@@ -190,7 +202,7 @@ begin
 
 end;
   }
-function I2C_Read8(fh: Cint; reg: byte): byte;
+function I2C_Read8(fh: Byte; reg: byte): byte;
 var
   buf: byte;
 
@@ -212,7 +224,7 @@ begin
 
 end;
 
-function I2C_Read16(fh: Cint; reg: byte): word;
+function I2C_Read16(fh: Byte; reg: byte): word;
 
 var
   buf: packed array [0..1] of byte = (0, 0);
@@ -239,7 +251,7 @@ end;
 
 
 
-constructor TIc2Base.Create(ai2cadd: Cint);
+constructor TIc2Base.Create(ai2cadd: Byte);
 begin
 
   Fi2cadd := ai2cadd;
@@ -271,18 +283,21 @@ begin
   Fhdev := 0;
 end;
 // ------------------------------BIT FUNCTIONS 8 BIT 
-function BitOn_8(const val: byte; const TheBit: Byte): byte;
+procedure  BitOn_8(var Value: byte; const TheBit: Byte);
 begin
-  Result := val or (1 shl TheBit);
+  Value := Value or (1 shl TheBit);
 end;
-function BitOff_8(const val: byte; const TheBit: Byte): byte;
+procedure  BitOff_8(var Value: byte; const TheBit: Byte);
 begin
-  Result := val and ((1 shl TheBit) xor $FFFF);
+  Value := Value and ((1 shl TheBit) xor $FF);
 end;
-function IsBitSet_8(const val: byte; const TheBit: Byte): Boolean;
+function IsBitSet_8(const Value: byte; const TheBit: Byte): Boolean;
 begin
-  Result := (val and (1 shl TheBit)) <> 0;
+  Result := (Value and (1 shl TheBit)) <> 0;
 end;
+
+// put bit ?
+
 
 
 end.

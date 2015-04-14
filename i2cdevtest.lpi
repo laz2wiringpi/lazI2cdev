@@ -33,7 +33,7 @@
         <LaunchingApplication PathPlusParams="/usr/bin/lxterminal"/>
       </local>
     </RunParams>
-    <Units Count="11">
+    <Units Count="13">
       <Unit0>
         <Filename Value="i2cdevtest.pas"/>
         <IsPartOfProject Value="True"/>
@@ -42,8 +42,8 @@
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="203"/>
-        <CursorPos X="8" Y="201"/>
-        <UsageCount Value="61"/>
+        <CursorPos X="1" Y="243"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -52,9 +52,9 @@
         <UnitName Value="i2cdev_base"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="33" Y="53"/>
-        <UsageCount Value="61"/>
+        <TopLine Value="28"/>
+        <CursorPos X="49" Y="76"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
@@ -63,9 +63,9 @@
         <UnitName Value="i2cdev_ADS1015"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="11"/>
-        <CursorPos X="1" Y="11"/>
-        <UsageCount Value="61"/>
+        <TopLine Value="220"/>
+        <CursorPos X="50" Y="260"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
@@ -74,14 +74,14 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="22" Y="45"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit3>
       <Unit4>
         <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/unix/aliasctp.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="33"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit4>
       <Unit5>
         <Filename Value="i2cdev_ADS1015.pas"/>
@@ -89,7 +89,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="4"/>
       </Unit5>
       <Unit6>
         <Filename Value="i2cdev_mcp4725.pas"/>
@@ -97,9 +97,9 @@
         <UnitName Value="i2cdev_MCP4725"/>
         <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="72"/>
-        <CursorPos X="69" Y="82"/>
-        <UsageCount Value="61"/>
+        <TopLine Value="71"/>
+        <CursorPos X="1" Y="120"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
@@ -107,7 +107,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="163"/>
         <CursorPos X="23" Y="192"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="9"/>
       </Unit7>
       <Unit8>
         <Filename Value="i2cdev_pca9685.pas"/>
@@ -115,9 +115,9 @@
         <UnitName Value="i2cdev_PCA9685"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="141"/>
-        <CursorPos X="37" Y="151"/>
-        <UsageCount Value="49"/>
+        <TopLine Value="326"/>
+        <CursorPos X="18" Y="379"/>
+        <UsageCount Value="79"/>
         <Bookmarks Count="1">
           <Item0 X="1" Y="1" ID="5"/>
         </Bookmarks>
@@ -129,7 +129,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="117"/>
         <CursorPos X="58" Y="147"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="5"/>
       </Unit9>
       <Unit10>
         <Filename Value="/usr/share/fpcsrc/2.6.0/packages/fcl-base/src/contnrs.pp"/>
@@ -137,129 +137,151 @@
         <WindowIndex Value="0"/>
         <TopLine Value="940"/>
         <CursorPos X="22" Y="1021"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="i2cdev_mcp23017.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="i2cdev_mcp23017"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="95" Y="197"/>
+        <UsageCount Value="50"/>
+        <Loaded Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="i2cdev_lcd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="i2cdev_lcd"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="280"/>
+        <CursorPos X="3" Y="345"/>
+        <UsageCount Value="50"/>
+        <Loaded Value="True"/>
+      </Unit12>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="130" Column="1" TopLine="83"/>
+        <Caret Line="64" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="131" Column="1" TopLine="83"/>
+        <Caret Line="65" Column="1" TopLine="1"/>
       </Position2>
       <Position3>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="132" Column="1" TopLine="83"/>
+        <Caret Line="67" Column="1" TopLine="1"/>
       </Position3>
       <Position4>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="133" Column="1" TopLine="83"/>
+        <Caret Line="243" Column="1" TopLine="203"/>
       </Position4>
       <Position5>
-        <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="134" Column="1" TopLine="83"/>
+        <Filename Value="i2cdev_lcd.pas"/>
+        <Caret Line="336" Column="18" TopLine="280"/>
       </Position5>
       <Position6>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="137" Column="1" TopLine="83"/>
+        <Caret Line="56" Column="1" TopLine="13"/>
       </Position6>
       <Position7>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="119" Column="95" TopLine="117"/>
+        <Caret Line="57" Column="1" TopLine="13"/>
       </Position7>
       <Position8>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="157" Column="69" TopLine="117"/>
+        <Caret Line="58" Column="1" TopLine="13"/>
       </Position8>
       <Position9>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="152" Column="1" TopLine="117"/>
+        <Caret Line="59" Column="1" TopLine="13"/>
       </Position9>
       <Position10>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="141" Column="7" TopLine="100"/>
+        <Caret Line="60" Column="1" TopLine="13"/>
       </Position10>
       <Position11>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="90" Column="36" TopLine="55"/>
+        <Caret Line="61" Column="1" TopLine="13"/>
       </Position11>
       <Position12>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="103" Column="45" TopLine="58"/>
+        <Caret Line="62" Column="1" TopLine="13"/>
       </Position12>
       <Position13>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="89" Column="28" TopLine="70"/>
+        <Caret Line="63" Column="1" TopLine="13"/>
       </Position13>
       <Position14>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="97" Column="53" TopLine="70"/>
+        <Caret Line="64" Column="1" TopLine="13"/>
       </Position14>
       <Position15>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="93" Column="1" TopLine="70"/>
+        <Caret Line="65" Column="1" TopLine="13"/>
       </Position15>
       <Position16>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="94" Column="1" TopLine="70"/>
+        <Caret Line="67" Column="1" TopLine="13"/>
       </Position16>
       <Position17>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="95" Column="1" TopLine="70"/>
+        <Caret Line="243" Column="1" TopLine="203"/>
       </Position17>
       <Position18>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="96" Column="1" TopLine="70"/>
+        <Caret Line="246" Column="1" TopLine="203"/>
       </Position18>
       <Position19>
-        <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="97" Column="1" TopLine="70"/>
+        <Filename Value="i2cdev_lcd.pas"/>
+        <Caret Line="345" Column="3" TopLine="280"/>
       </Position19>
       <Position20>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="98" Column="1" TopLine="70"/>
+        <Caret Line="56" Column="1" TopLine="20"/>
       </Position20>
       <Position21>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="99" Column="1" TopLine="70"/>
+        <Caret Line="57" Column="1" TopLine="20"/>
       </Position21>
       <Position22>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="141" Column="25" TopLine="87"/>
+        <Caret Line="58" Column="1" TopLine="20"/>
       </Position22>
       <Position23>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="102" Column="35" TopLine="69"/>
+        <Caret Line="59" Column="1" TopLine="20"/>
       </Position23>
       <Position24>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="95" Column="1" TopLine="69"/>
+        <Caret Line="60" Column="1" TopLine="20"/>
       </Position24>
       <Position25>
-        <Filename Value="i2cdev_pca9685.pas"/>
-        <Caret Line="181" Column="1" TopLine="146"/>
+        <Filename Value="i2cdevtest.pas"/>
+        <Caret Line="61" Column="1" TopLine="20"/>
       </Position25>
       <Position26>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="149" Column="28" TopLine="108"/>
+        <Caret Line="62" Column="1" TopLine="20"/>
       </Position26>
       <Position27>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="147" Column="1" TopLine="108"/>
+        <Caret Line="63" Column="1" TopLine="20"/>
       </Position27>
       <Position28>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="149" Column="1" TopLine="108"/>
+        <Caret Line="64" Column="1" TopLine="20"/>
       </Position28>
       <Position29>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="144" Column="1" TopLine="108"/>
+        <Caret Line="65" Column="1" TopLine="20"/>
       </Position29>
       <Position30>
         <Filename Value="i2cdevtest.pas"/>
-        <Caret Line="149" Column="1" TopLine="108"/>
+        <Caret Line="67" Column="1" TopLine="20"/>
       </Position30>
     </JumpHistory>
   </ProjectOptions>
@@ -277,6 +299,12 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="i2cdevtest.pas"/>
+        <Line Value="56"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="3">
       <Item1>
         <Name Value="EAbort"/>
