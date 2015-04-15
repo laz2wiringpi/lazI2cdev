@@ -26,7 +26,7 @@ const
   LCD_CLEARDISPLAY = $01;
   LCD_RETURNHOME = $02;
   // --------------------------------------------------------
-  //LCD_ENTRYMODESET = $04;
+  LCD_ENTRYMODESET = $04;
 
   LCD_ENTRYMODESET_INCREMENT_BIT = 1;
   LCD_ENTRYMODESET_SHIFT_BIT = 0;
@@ -66,7 +66,12 @@ const
 
 type
 
+  TLcdbytechar = array [1..8] of byte;
+
   { TLCD }
+
+
+type
 
   TLCD = class(TMCP23017)
 
@@ -97,10 +102,13 @@ type
     procedure rightToLeft();
     procedure autoscroll();
     procedure noAutoscroll();
-
+    procedure createChar(location: byte; charmap: TLcdbytechar);
+    function ReadChar(): char;
 
     // Procedure createChar(uint8_t, uint8_t[]);
     // Procedure setCursor( col , row : Byte );
+
+    procedure ReadcustomChar(location: byte; var charmap: TLcdbytechar);
 
   private
 
@@ -122,6 +130,9 @@ type
   //  _currline: byte;
 
     procedure Command(cmdbyte: byte);
+
+
+
 
   end;
 
@@ -191,24 +202,71 @@ begin
 end;
 
 procedure TLCD.Command(cmdbyte: byte);
+var
+ controlbyte : byte   ;
+
 begin
-    connect;
-  I2C_Write8(hdev, MCP23017_GPIOA, 32); // all   on port B
+  connect;
+      pinMode(false, 0 );  // ALL WRITE
+          controlbyte := 0;
+  BitOFF_8 ( controlbyte,_rs_pin_bit);
+  BitOFF_8 ( controlbyte,_rw_pin_bit   );
+  BitOn_8 ( controlbyte,_enable_pin_bit );
+
+
+  I2C_Write8(hdev, MCP23017_GPIOA, controlbyte); // all   on port B
   I2C_Write8(hdev, MCP23017_GPIOB, cmdbyte); // all   on port B
  // sleep(5);
-  I2C_Write8(hdev, MCP23017_GPIOA, 0); // all   on port B
+
+     BitOff_8 ( controlbyte,_enable_pin_bit );
+  I2C_Write8(hdev, MCP23017_GPIOA, controlbyte); // all   on port B
     delayMicroseconds(5000);
 end;
 
 procedure TLCD.SendChar(cmdbyte: char);
+var
+ controlbyte : byte   ;
+
 begin
   connect;
+      pinMode(false, 0 );  // ALL WRITE
+          controlbyte := 0;
+  BitON_8 ( controlbyte,_rs_pin_bit);
+  BitOFF_8 ( controlbyte,_rw_pin_bit   );
+  BitOn_8 ( controlbyte,_enable_pin_bit );
 
-  I2C_Write8(hdev, MCP23017_GPIOA, 160); // all   on port B
+  I2C_Write8(hdev, MCP23017_GPIOA, controlbyte); // all   on port B
   I2C_Write8(hdev, MCP23017_GPIOB, Ord(cmdbyte)); // all   on port B
-
-  I2C_Write8(hdev, MCP23017_GPIOA, 128); // all   on port B
+   BitOff_8 ( controlbyte,_enable_pin_bit );
+  I2C_Write8(hdev, MCP23017_GPIOA, controlbyte); // all   on port B
   sleep(2);
+end;
+
+function  TLCD.ReadChar() : char;
+var
+ controlbyte : byte   ;
+
+begin
+  connect;
+    pinMode(false, $FF );  // ALL READ
+    controlbyte := 0;
+  BitOn_8 ( controlbyte,_rs_pin_bit);
+  BitON_8 ( controlbyte,_rw_pin_bit   );
+  BitOn_8 ( controlbyte,_enable_pin_bit );
+
+
+
+
+  I2C_Write8(hdev, MCP23017_GPIOA, controlbyte); // all   on port B
+    sleep(1) ;
+
+
+        sleep(1) ;
+  result :=  char( I2C_Read8 (hdev, MCP23017_GPIOB)); // all   on port B
+      BitOFF_8 ( controlbyte,_enable_pin_bit );
+         I2C_Write8(hdev, MCP23017_GPIOA, controlbyte); // all   on port B
+
+  sleep(1);
 end;
 
 procedure TLCD.home();
@@ -333,7 +391,7 @@ begin
   // if ( row > _numlines ) {
   // row = _numlines-1;    // we count rows starting w/0
   if row > 0 then
-    data := col + 40
+    data := col + $40
   else
     data := col;
 
@@ -341,18 +399,59 @@ begin
 
 end;
 
-{
+
   // Allows us to fill the first 8 CGRAM locations
   // with custom characters
-  void Adafruit_RGBLCDShield::createChar(uint8_t location, uint8_t charmap[])
-  location &= 0x7; // we only have 8 locations 0-7
-  command(LCD_SETCGRAMADDR | (location << 3));
-  for (int i=0; i<8; i++) {
-  write(charmap[i]);
+   procedure TLCD.createChar(  location : byte ;   charmap : TLcdbytechar   )  ;
+   var
+     i : Integer  ;
+     devcharmap : TLcdbytechar  ;
+     alocation : byte;
+   begin
+    alocation  :=   ( location * 8  )    ; // we only have 8 locations 0-7
+
+
+  ReadcustomChar ( location, devcharmap  ) ;
+
+
+    if NOT  (
+    (charmap[1]  =  devcharmap[1] ) and   (charmap[2]  =  devcharmap[2] )
+    AND  (charmap[3]  =  devcharmap[3] )  AND  (charmap[4]  =  devcharmap[4] )
+    AND  (charmap[5]  =  devcharmap[5] )  AND  (charmap[6]  =  devcharmap[6] )
+    AND  (charmap[7]  =  devcharmap[7] )  AND  (charmap[8]  =  devcharmap[8] )
+
+    )
+
+    then
+    begin
+
+    command(LCD_SETCGRAMADDR or  alocation);
+
+     for i := 1 to 8 do
+
+     SendChar  (  char( charmap[i] ) )  ;
+
+
+    end;
 
   command(LCD_SETDDRAMADDR);  // unfortunately resets the location to 0,0
-  }
+ end;
 
+     procedure TLCD.ReadcustomChar(   location : byte ; var    charmap : TLcdbytechar   )  ;
+   var
+     i : Integer  ;
+       alocation : byte;
+
+   begin
+    alocation  :=   ( location * 8  )    ; // we only have 8 locations 0-7
+  command(LCD_SETCGRAMADDR or  alocation);
+
+  for i := 1 to 8 do
+    charmap[i]  :=  byte( readChar  ())  ;
+
+
+  // command(LCD_SETDDRAMADDR);  // unfortunately resets the location to 0,0
+ end;
 
   procedure TLCD.SendString(cmdstr: string);
 

@@ -33,6 +33,9 @@ TMCP23017  = class(TIc2Base)
 
 private
 
+  _pinmodeA : byte ;
+  _pinmodeB : byte ;
+
 
 public
 //  Procedure  begin(uint8_t addr);

@@ -11,7 +11,9 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   i2cdev_base,
   i2cdev_ADS1015,
   i2cdev_MCP4725,
-  i2cdev_PCA9685, i2cdev_mcp23017, i2cdev_lcd;
+  i2cdev_PCA9685,
+  i2cdev_mcp23017,
+  i2cdev_lcd;
 
 type
 
@@ -23,7 +25,7 @@ type
     ADS: TADS1015;
     MCP: TMCP4725;
     PCA: TPCA9685;
-    LCD : TLCD  ;
+    LCD: TLCD;
 
     procedure doLCD();
     procedure servotest;
@@ -35,36 +37,69 @@ type
   end;
 
   { ic2dev }
- procedure  ic2dev.doLCD ();
- var
- cnt : Integer ;
- begin
-
-   LCD.initMCP() ;
-      LCD.SendString ('_234567890');
-
-      LCD.SendString ('1_34567890');
+  procedure ic2dev.doLCD();
+  var
+    charint,cnt: integer;
+    chardata: TLcdbytechar;
+  begin
 
 
-         LCD.SendString ('12_4567890');
+    for cnt := 1 to 8 do
+      chardata[cnt] := 0;
 
-            LCD.SendString ('123_567890');
+    LCD.initMCP();
+
+    chardata[1] := 31;
+    lcd.createChar(0, chardata);
+    chardata[2] := 31;
+    lcd.createChar(1, chardata);
+    chardata[3] := 31;
+    lcd.createChar(2, chardata);
+    chardata[4] := 31;
+    lcd.createChar(3, chardata);
+
+    chardata[5] := 31;
+    lcd.createChar(4, chardata);
+
+    chardata[6] := 31;
+    lcd.createChar(5, chardata);
+    chardata[7] := 31;
+    lcd.createChar(6, chardata);
+    chardata[8] := 31;
+    lcd.createChar(7, chardata);
 
 
-            LCD.SendString ('1234_67890');
 
- sleep(500);
- LCD.setCursor(0,0);
-  sleep(500);
- LCD.setCursor(3,1);
-  sleep(500);
- LCD.setCursor(2,1);
-   for cnt := 1 to 5 do
-   lcd.scrollDisplayLeft()  ;
-      for cnt := 1 to 5 do
-   lcd.scrollDisplayRight ()  ;
 
- end;
+    charint := 0;
+
+    while true do
+    begin
+    LCD.setCursor(0, 0);
+    for cnt := 0 to  15 do
+    begin
+      inc(charint);
+        if  charint > 254 then exit;
+      LCD.SendChar(char(charint)) ;
+    end;
+    sleep(500);
+
+    LCD.setCursor(0, 1);
+      for cnt := 0 to 15 do
+    begin
+      inc(charint);
+       if  charint > 254 then exit;
+      LCD.SendChar(char(charint)) ;
+
+
+    end;
+    sleep(2000);
+
+
+
+
+    end;
+  end;
 
 
 
@@ -117,26 +152,27 @@ type
 
   procedure ic2dev.servotest;
 
-      const
+  const
 
     MINSERVO = 150;
-    MAXSERVO =500;
+    MAXSERVO = 500;
     PWMFREQ = 60;
-       var
-      cnt : integer ;
-  procedure submove( subPIN :  byte );
-  begin
+  var
+    cnt: integer;
 
-      pca.pins[subPIN].led_off :=MINSERVO;
-        pca.pins[subPIN].led_on :=0;
-        pca.pins[subPIN].updatepin;
-             sleep(250);
-              pca.pins[subPIN].led_on :=0;
-                  pca.pins[subPIN].led_off :=MAXSERVO ;
-                  pca.pins[subPIN].updatepin;
-        sleep(250);
+    procedure submove(subPIN: byte);
+    begin
 
-  end;
+      pca.pins[subPIN].led_off := MINSERVO;
+      pca.pins[subPIN].led_on := 0;
+      pca.pins[subPIN].updatepin;
+      sleep(250);
+      pca.pins[subPIN].led_on := 0;
+      pca.pins[subPIN].led_off := MAXSERVO;
+      pca.pins[subPIN].updatepin;
+      sleep(250);
+
+    end;
 
   begin
 
@@ -172,19 +208,19 @@ type
     writeln('FREQ=', PCA.getPWMFreqbit);
 
 
-   // while True do
+    // while True do
     begin
       //move one then the the other
       submove(0);
       submove(1);
-      sleep (500);
-       pca.pins[0].led_off :=MINSERVO;
-         pca.pins[1].led_off :=MINSERVO;
-         // move at same time
-        pca.pins[0].updatepin;
-        pca.pins[1].updatepin;
+      sleep(500);
+      pca.pins[0].led_off := MINSERVO;
+      pca.pins[1].led_off := MINSERVO;
+      // move at same time
+      pca.pins[0].updatepin;
+      pca.pins[1].updatepin;
 
-           sleep(1000);
+      sleep(1000);
 
      {
       for cnt := 0 to 10 do
@@ -211,8 +247,6 @@ type
          }
     end;
 
-
-
   end;
 
   procedure ic2dev.DoRun;
@@ -233,12 +267,12 @@ type
       PCA :=
         TPCA9685.Create();
 
-      LCD := TLCD .Create($24);
+      LCD := TLCD.Create($24);
 
-        dolcd();
+      dolcd();
 
-    //   volt;
-     // servotest;
+      //   volt;
+      // servotest;
 
       Terminate;
 
@@ -295,7 +329,7 @@ type
         if (ainput) = 'volt' then
           volt;
 
-          if (ainput) = 'servotest' then
+        if (ainput) = 'servotest' then
           servotest;
 
       end;

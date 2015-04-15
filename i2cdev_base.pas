@@ -41,11 +41,12 @@ type
 
 function I2C_Open(iDevAddr: Byte): Byte;
 procedure I2C_Close(fh: Byte);
-
-function I2C_Read8(fh: Byte; reg: byte): byte;
+function I2C_Read8(fh: Byte ): byte;  overload ;
+function I2C_Read8(fh: Byte; reg: byte): byte;  overload ;
 function I2C_Read16(fh: Byte; reg: byte): word;
 
-function I2C_Write8(fh: Byte; reg: byte; Data: byte): boolean;
+function I2C_Write8(fh: Byte; reg: byte; Data: byte): boolean;       overload ;
+function I2C_Write8(fh: Byte;  Data: byte): boolean;    overload ;
 function I2C_Write16(fh: Byte; reg: byte; Data: word): boolean;
 
 // ----  test function
@@ -105,6 +106,25 @@ begin
   Result := True;
 
 end;
+function I2C_Write8(fh: Byte;  Data: byte): boolean;
+
+
+begin
+
+
+
+
+
+  if fpwrite(fh, data, 1) <> 1 then
+  begin
+    raise Exception.Create('I2C_Write8 ERROR');
+
+  end;
+
+  Result := True;
+
+end;
+
 procedure  delayMicroseconds (micorseconds : Integer  );
 begin
   // dummy waper
@@ -202,6 +222,24 @@ begin
 
 end;
   }
+function I2C_Read8(fh: Byte ): byte;
+var
+  buf: byte;
+
+begin
+
+
+
+  if fpread(fh, buf, 1) <> 1 then
+  begin
+    raise Exception.Create('I2C_Read8  read   ERROR');
+
+  end;
+
+  Result := buf;
+
+end;
+
 function I2C_Read8(fh: Byte; reg: byte): byte;
 var
   buf: byte;
